@@ -2,7 +2,7 @@
 
 ## Chức năng 
 Dự án này cho phép thực hiện:
-- Cặt cron-job bằng thư viện celery
+- Cài đặt các cron-job bằng thư viện celery
 - Cài đặt các back-ground task
 - Cho phép khởi tạo các back-ground task thông qua api
 
