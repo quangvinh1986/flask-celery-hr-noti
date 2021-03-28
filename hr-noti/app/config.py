@@ -66,14 +66,26 @@ class ApiAppConfig(DefaultConfig):
     _upload_folder = "Temp_Upload"
     UPLOAD_FOLDER = os.path.join(Path(os.path.abspath(os.path.dirname(__file__))).parent, _upload_folder)
 
+    HEALTH_CHECK_URL = 'http://127.0.0.1:5001/myApi/healthCheck'
 
+    # [REDIS]
+    REDIS_HOST = '127.0.0.1'
+    REDIS_PORT = 6379
+    REDIS_DB = 1
+    REDIS_PASSWORD = None
+    # REDIS_PASSWORD = "redispassword"
 
+    if REDIS_PASSWORD:
+        REDIS_URL = 'redis://:{0}{1}:{2}/{3}'.format(REDIS_PASSWORD + "@", REDIS_HOST, REDIS_PORT, REDIS_DB)
+    else:
+        REDIS_URL = 'redis://{0}:{1}/{2}'.format(REDIS_HOST, REDIS_PORT, REDIS_DB)
 
+    result_backend = REDIS_URL
+    broker_url = REDIS_URL
+
+    RESULT_BACKEND = REDIS_URL
+    BROKER_URL = REDIS_URL
     # </editor-fold>
-
-
-
-
 
 
 class TestingConfig(ApiAppConfig):

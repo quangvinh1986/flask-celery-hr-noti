@@ -1,6 +1,6 @@
 from flask import Blueprint
 from .common import health_check
-from .geo_location import region_api, location_api, country_api
+from .task import task_api
 
 
 def init_app(app, **kwargs):
