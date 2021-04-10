@@ -68,6 +68,12 @@ class ApiAppConfig(DefaultConfig):
 
     HEALTH_CHECK_URL = 'http://127.0.0.1:5001/myApi/healthCheck'
 
+    # [POSTGRESQL]
+    # SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://username:password@127.0.0.1:5432/HR"
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://admin:2341312@127.0.0.1:5432/HR"
+    SQLALCHEMY_POOL_SIZE = 10
+    SQLALCHEMY_MAX_OVERFLOW = 20
+
     # [REDIS]
     REDIS_HOST = '127.0.0.1'
     REDIS_PORT = 6379
