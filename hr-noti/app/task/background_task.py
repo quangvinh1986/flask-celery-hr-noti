@@ -39,7 +39,7 @@ def auto_check_hire_date():
     try:
         list_employee = employee_task.action_with_hire_date()
         if list_employee:
-            celery.send_task(send_birthday_email, args=[list_employee])
+            celery.send_task("send_birthday_email", args=[list_employee])
 
     except Exception as ex:
         logger.error("auto_check_hire_date task fail " + str(ex.__str__()))
@@ -52,8 +52,8 @@ def send_birthday_email(list_employee: list):
     send list of staff to special email
     """
     try:
-        list_email = [employee.EMAIL for employee in list_employee]
-        email_notice.send_birthday_email_to_employee(list_email)
+        list_email = [employee['EMAIL'] for employee in list_employee]
+        email_notice.send_welcome_day_email_to_employee(list_email)
         logger.info("send_birthday_email DONE")
     except Exception as ex:
         logger.error("send_birthday_email task fail " + str(ex.__str__()))

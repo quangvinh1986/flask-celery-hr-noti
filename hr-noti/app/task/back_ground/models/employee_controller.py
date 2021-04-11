@@ -38,11 +38,33 @@ class EmployeeController(DBConnection):
         result = value.all()
         return result
 
-    def get_employee_by_hire_date(self, hire_date, offset=0, limit=20):
-        # date_compare = datetime.strptime("2020-06-17", "%Y-%m-%d")
+    def get_employee_by_hire_date(self, compare_date, offset=0, limit=20):
+        """
+        return list of list value
+        example: [
+                    [100, 'STEVEN', 'KING', 'SKING',...],
+                ]
+        """
+        # compare_date = datetime.strptime("2020-06-17", "%Y-%m-%d")
         value = self.session.query(self.Employee)\
-            .filter(extract('month', self.Employee.c.HIRE_DATE) == hire_date.month)\
-            .filter(extract('day', self.Employee.c.HIRE_DATE) == hire_date.day)\
+            .filter(extract('month', self.Employee.c.HIRE_DATE) == compare_date.month)\
+            .filter(extract('day', self.Employee.c.HIRE_DATE) == compare_date.day)\
             .offset(offset).limit(limit)
         result = value.all()
         return result
+
+    def get_employees_by_hire_date(self, compare_date, offset=0, limit=20):
+        """
+        :return list of dictionary (convert from row_proxy)
+        example: [
+                    {'EMPLOYEE_ID': 100, 'FIRST_NAME': 'STEVEN', 'LAST_NAME': 'KING', ...},
+                ]
+        """
+        compare_date = datetime.strptime("2020-06-17", "%Y-%m-%d")
+        select_statement = self.Employee.select() \
+            .where(and_(extract('month', self.Employee.c.HIRE_DATE) == compare_date.month,
+                        extract('day', self.Employee.c.HIRE_DATE) == compare_date.day)) \
+            .offset(offset).limit(limit)
+        value = self.connection.execute(select_statement).fetchall()
+        return [dict(row) for row in value]
+        # return value
